@@ -4,17 +4,39 @@
  */
 package com.mycompany.planificadores;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ricnull
  */
 public class RR extends javax.swing.JFrame {
+    DefaultTableModel modelReady;
+    DefaultTableModel modelShow;
+    LinkedList llNameProcess = new LinkedList();
+    LinkedList llSizeProcess = new LinkedList();
+    LinkedList llNewList = new LinkedList();
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int quantumSize = 0;
 
     /**
      * Creates new form RR
      */
     public RR() {
         initComponents();
+        modelReady = new DefaultTableModel();
+        modelShow = new DefaultTableModel();
+        tabReady.setModel(modelReady);
+        tabShow.setModel(modelShow);
+        modelReady.addColumn("Name of the Process");
+        modelReady.addColumn("Size of the Process");
+        modelShow.addColumn("Name of the Process");
     }
 
     /**
@@ -40,14 +62,16 @@ public class RR extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabReady = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnLoad = new javax.swing.JButton();
+        btnExecute = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tabShows = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
+        tabShow = new javax.swing.JTable();
+        btnReturn = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtMemorySize = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,15 +118,35 @@ public class RR extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabReady);
 
-        jButton1.setText("Save Process");
+        btnSave.setText("Save Process");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Load all process");
+        btnLoad.setText("Load all process");
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Execute");
+        btnExecute.setText("Execute");
+        btnExecute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExecuteActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Reset all");
+        btnReset.setText("Reset all");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
-        tabShows.setModel(new javax.swing.table.DefaultTableModel(
+        tabShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -113,12 +157,21 @@ public class RR extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(tabShows);
+        jScrollPane2.setViewportView(tabShow);
 
-        jButton5.setText("Return to main menu");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnReturn.setText("Return to main menu");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnReturnActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Size of Memory");
+
+        txtMemorySize.setText("15");
+        txtMemorySize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMemorySizeActionPerformed(evt);
             }
         });
 
@@ -128,8 +181,11 @@ public class RR extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
                     .addComponent(jSeparator5)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,28 +198,29 @@ public class RR extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNameProcess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtSizeProcess, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSizeQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton5)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(txtSizeQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMemorySize, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(btnSave)
+                .addGap(18, 18, 18)
+                .addComponent(btnLoad)
+                .addGap(18, 18, 18)
+                .addComponent(btnExecute)
+                .addGap(18, 18, 18)
+                .addComponent(btnReset)
+                .addGap(18, 18, 18)
+                .addComponent(btnReturn)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -175,19 +232,26 @@ public class RR extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txtSizeQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtSizeQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtMemorySize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnSave)
+                    .addComponent(btnLoad)
+                    .addComponent(btnExecute)
+                    .addComponent(btnReset)
+                    .addComponent(btnReturn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -199,7 +263,7 @@ public class RR extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(265, 265, 265)
                 .addComponent(jLabel1)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,13 +298,103 @@ public class RR extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSizeQuantumActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         Menu menu = new Menu();
         menu.setVisible(true);
         this.dispose();
         
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        modelReady.addRow(new Object[]{
+            txtNameProcess.getText(),
+            txtSizeProcess.getText()
+        });
+        llNameProcess.addLast(txtNameProcess);
+        llSizeProcess.addLast(txtSizeProcess);
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        modelReady.setNumRows(0);
+        modelShow.setNumRows(0);
+        btnLoad.setEnabled(true);
+        
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        modelShow.setColumnCount(0);
+        modelShow.addColumn("Name of Process");
+        i = 0;
+        j = 0;
+        k = 0;
+        if(Integer.parseInt(txtSizeProcess.getText())>0){
+            while(i<Integer.parseInt(txtMemorySize.getText())){
+                modelShow.addColumn(i+1);
+                i++;
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, 
+                    "Process Size invalid", "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        i=0;
+//        quantumSize = Integer.parseInt(txtSizeQuantum.getText());
+//        llNameProcess.addLast(llNameProcess.getFirst());
+//        while(Integer.parseInt(llSizeProcess.getLast().toString())<quantumSize){
+//            
+//        }
+    
+        while(i<modelReady.getRowCount()){
+            modelShow.addRow(new Object[]{
+                modelReady.getValueAt(i,0)
+            });
+        i++;
+        }
+        quantumSize = Integer.parseInt(txtSizeQuantum.getText());
+        btnLoad.setEnabled(false);
+        
+        
+        
+    }//GEN-LAST:event_btnLoadActionPerformed
+
+    private void txtMemorySizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMemorySizeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMemorySizeActionPerformed
+
+    private void btnExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuteActionPerformed
+    
+        i = 0;
+        j = 0;
+        k = 0;
+        while(Integer.parseInt(llSizeProcess.getFirst().toString())<quantumSize){
+            if(Integer.parseInt(llSizeProcess.getFirst().toString())>quantumSize){
+                llNewList.addLast(Integer.parseInt(llSizeProcess.getFirst().toString())-quantumSize);
+            }
+            else{
+                llNewList.addLast(llSizeProcess.getFirst());
+            }
+        }
+        
+        
+        while(j<modelShow.getRowCount()){
+                while(i<Integer.parseInt(llNewList.getFirst().toString())){
+                modelShow.setValueAt(llNewList.getFirst(), j, i+1+k);
+                i++;
+                }
+                llNewList.pop();
+                k+=i;
+                j++;
+                i=0;
+        }
+        
+        
+    }//GEN-LAST:event_btnExecuteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -278,15 +432,16 @@ public class RR extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnExecute;
+    private javax.swing.JButton btnLoad;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -296,7 +451,8 @@ public class RR extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTable tabReady;
-    private javax.swing.JTable tabShows;
+    private javax.swing.JTable tabShow;
+    private javax.swing.JTextField txtMemorySize;
     private javax.swing.JTextField txtNameProcess;
     private javax.swing.JTextField txtSizeProcess;
     private javax.swing.JTextField txtSizeQuantum;

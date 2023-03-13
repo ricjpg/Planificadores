@@ -15,19 +15,26 @@ import java.util.LinkedList;
  *
  * @author Ricardo Guardiola
  */
-public class FIFO extends javax.swing.JFrame {
+public class RRtest extends javax.swing.JFrame {
     DefaultTableModel model;
     DefaultTableModel model2;
     int i = 0;
     int j = 0;
     int k = 0;
+    int f = 0;
+    int mem = 0;
     LinkedList llName = new LinkedList();
     LinkedList llSize = new LinkedList();
+    LinkedList llNewProcessSize = new LinkedList();
+    LinkedList llNewProcessSize2 = new LinkedList();
+    LinkedList llTail = new LinkedList();
+    LinkedList llNewProcessName = new LinkedList();
+    int sizeQuantum = 0;
 
     /**
      * Creates new form FIFO
      */
-    public FIFO() {
+    public RRtest() {
         
         initComponents();
         model = new DefaultTableModel();
@@ -76,12 +83,13 @@ public class FIFO extends javax.swing.JFrame {
         btnExecute = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        txtQuantum = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
-        jLabel1.setText("FIFO");
+        jLabel1.setText("RR test");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(271, 6, -1, 53));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 65, 647, 10));
 
@@ -106,7 +114,7 @@ public class FIFO extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 122, -1, -1));
 
         txtMemory.setText("20");
-        getContentPane().add(txtMemory, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 153, 71, -1));
+        getContentPane().add(txtMemory, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 71, -1));
 
         jLabel4.setText("Set the size of the memory");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 156, -1, -1));
@@ -195,18 +203,35 @@ public class FIFO extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
 
+        txtQuantum.setText("3");
+        getContentPane().add(txtQuantum, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 71, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
-        if(Integer.parseInt(txtSize.getText())>0){
+        sizeQuantum = Integer.parseInt(txtQuantum.getText());
+        mem = Integer.parseInt(txtSize.getText());
+        f = mem-sizeQuantum;
+        System.out.println("Q="+sizeQuantum);
+        System.out.println("P="+mem);
+        System.out.println("f="+f);
+
+        if(Integer.parseInt(txtSize.getText())>1){
             model.addRow(new Object[]{
             txtName.getText(),
             txtSize.getText()
             });
         llName.addLast(txtName.getText());
-        llSize.addLast(Integer.parseInt(txtSize.getText()));
+        llSize.addLast(Integer.valueOf(txtSize.getText()));
+
+        if(Integer.parseInt(txtSize.getText())>sizeQuantum){
+            llNewProcessSize.addLast(sizeQuantum);
+            llTail.addLast(f);
+        }else{
+            llNewProcessSize.addLast(Integer.valueOf(txtSize.getText()));
+        }
+            System.out.println(llNewProcessSize.size());
         
 //        this.ClearAll();
         }else{
@@ -218,35 +243,81 @@ public class FIFO extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-        
+        sizeQuantum = Integer.parseInt(txtQuantum.getText());
         i = Integer.parseInt(txtMemory.getText());
         model2.setColumnCount(0);
         model2.addColumn("Name of Process");
         while(j<i){
             model2.addColumn(j+1);
-//            System.out.println(i);
 
             j++;
         }
-        try{
-//            model2.addRow(model.getDataVector().firstElement());
-//              model2.addRow(llName.toArray());
-//            model2.addRow(new Object[]{            });
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-//        model2.addColumn(i);
-//        model2.addRow(model.getDataVector());
         System.out.println(llName.getFirst());
         System.out.println(llSize.getFirst());
         j=0;
-       while(j<model.getRowCount()){
+        
+        
+        
+//        while(Integer.parseInt(llSize.getFirst().toString())>sizeQuantum){
+//            
+//            
+//            llNewProcessSize.addLast(Integer.parseInt(llSize.getFirst().toString())-sizeQuantum);
+//            llNewProcessName.addLast(llName);
+//            llSize.
+////            if(Integer.parseInt(llSize.getFirst().toString())>sizeQuantum){
+//            llSize.pop();
+//            
+////            }
+//            if(llSize.isEmpty()){
+//                llSize.addFirst(sizeQuantum-1);
+////                break;
+//            }else{}
+//            System.out.println(llNewProcessName.size());
+//        }
+
+//        while(Integer.parseInt(llSize.getFirst().toString())>sizeQuantum){
+//            
+//            llNewProcessSize.addLast(Integer.parseInt(llSize.getFirst().toString())-sizeQuantum);
+////            llSize.set(0, Integer.parseInt(llSize.getFirst().toString())-sizeQuantum);
+//            if(Integer.parseInt(llSize.getFirst().toString())>sizeQuantum){
+//                llSize.set(0, Integer.parseInt(llSize.getFirst().toString())-sizeQuantum);
+//            }
+//            else{
+//                
+//                llNewProcessSize.addLast(llSize.getFirst());
+//                llSize.pop();
+//                }
+//            
+//        }
+
+//        while(Integer.parseInt(llSize.getFirst().toString())>sizeQuantum){
+//            if(Integer.parseInt(llSize.getFirst().toString())<sizeQuantum){
+//                llNewProcessSize.addLast(llSize.getFirst());
+//                llSize.pop();
+//            }else{
+//                llNewProcessSize.addLast(Integer.parseInt(llSize.getFirst().toString())-sizeQuantum);
+//                llSize.set(0, Integer.parseInt(llSize.getFirst().toString())-sizeQuantum);
+//            }
+//            llSize.pop();
+//            System.out.println(llNewProcessSize.size());
+//        }
+        j=0;
+        System.out.println("Size of new List = "+llNewProcessSize.size());
+        while(!llNewProcessSize.isEmpty()){
             model2.addRow(new Object[]{
-                  llName.getFirst()
+                  llNewProcessSize.getFirst()
             });
-            llName.pop();
+            llNewProcessSize2.addLast(llNewProcessSize.getFirst());
+            llNewProcessSize.pop();
            j++;
        }
+       while(!llTail.isEmpty()){
+           llNewProcessSize2.addLast(llTail.getFirst());
+           llTail.pop();
+           System.out.println("Size last: "+llNewProcessSize2.size());
+       }
+       
+       
        i=0;
        model.setNumRows(0);
 //       txtMemory.setText("0");
@@ -258,18 +329,64 @@ public class FIFO extends javax.swing.JFrame {
         j=0;
         i=0;
         k=0;
-        
-//        if (model.getRowCount()>0){
-            while(j<model2.getRowCount()){
-                while(i<Integer.parseInt(llSize.getFirst().toString())){
-                model2.setValueAt("#", j, i+1+k);
+//        while(Integer.parseInt(llSize.getFirst().toString())>sizeQuantum){
+//            llNewProcessSize.addLast(Integer.parseInt(llSize.getFirst().toString())-sizeQuantum);
+//            llNewProcessName.addLast(llName);
+//            
+//            llSize.pop();
+//            if(llSize.isEmpty()){
+//                llSize.addFirst(sizeQuantum-1);
+//            }else{}
+//            System.out.println(llNewProcessName.size());
+//        }
+        i = 0;
+//        while(i<llNewList.size()){
+//            System.out.println(llNewList.getFirst());
+//            llNewList.pop();
+//            i++;
+//        }
+        i = 0;
+        j = 0;
+        k=0;
+//        while(j<llNewProcessName.size()){
+//                while(i<sizeQuantum){
+//                model2.setValueAt(llNewProcessSize.getFirst(), j, i+1+k);
+//                i++;
+//                }
+//                llNewProcessSize.pop();
+//                k+=i;
+//                j++;
+//                i=0;
+//            }
+//        
+
+
+        while(j<model2.getRowCount()){
+            while(i<Integer.parseInt(llNewProcessSize2.getFirst().toString())){
+                model2.setValueAt(llNewProcessSize2.getFirst(), j, i+1+k);
                 i++;
-                }
-                llSize.pop();
+            }
+            llNewProcessSize2.pop();
                 k+=i;
                 j++;
                 i=0;
-            }
+        }
+        
+        
+        
+//        if (model.getRowCount()>0){
+
+//            while(j<model2.getRowCount()){
+//                while(i<sizeQuantum){
+//                model2.setValueAt(llSize.getFirst(), j, i+1+k);
+//                i++;
+//                }
+//                llSize.pop();
+//                k+=i;
+//                j++;
+//                i=0;
+//            }
+            
 //        }else{}
 //        this.setEnabled(false);
         btnLoad.setEnabled(false);
@@ -315,20 +432,21 @@ public class FIFO extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRtest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRtest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRtest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRtest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FIFO().setVisible(true);
+                new RRtest().setVisible(true);
             }
         });
     }
@@ -353,6 +471,7 @@ public class FIFO extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField txtMemory;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtQuantum;
     private javax.swing.JTextField txtSize;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,19 +15,23 @@ import java.util.LinkedList;
  *
  * @author Ricardo Guardiola
  */
-public class FIFO extends javax.swing.JFrame {
+public class RRF extends javax.swing.JFrame {
     DefaultTableModel model;
     DefaultTableModel model2;
     int i = 0;
     int j = 0;
     int k = 0;
+    int temp = 0;
+    int quantumSize = 0;
     LinkedList llName = new LinkedList();
     LinkedList llSize = new LinkedList();
+    LinkedList llName2 = new LinkedList();
+    
 
     /**
      * Creates new form FIFO
      */
-    public FIFO() {
+    public RRF() {
         
         initComponents();
         model = new DefaultTableModel();
@@ -76,12 +80,14 @@ public class FIFO extends javax.swing.JFrame {
         btnExecute = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        txtQuantum = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
-        jLabel1.setText("FIFO");
+        jLabel1.setText("Round Robin");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(271, 6, -1, 53));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 65, 647, 10));
 
@@ -94,7 +100,7 @@ public class FIFO extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 70, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 70, -1));
 
         jLabel2.setText("Set the name for the process");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 88, -1, -1));
@@ -106,11 +112,11 @@ public class FIFO extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 122, -1, -1));
 
         txtMemory.setText("20");
-        getContentPane().add(txtMemory, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 153, 71, -1));
+        getContentPane().add(txtMemory, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 71, -1));
 
         jLabel4.setText("Set the size of the memory");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 156, -1, -1));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 620, 30));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 620, 30));
 
         jLabel5.setText("Prepared Process");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, -1, -1));
@@ -128,7 +134,7 @@ public class FIFO extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 240, 170));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 370, 170));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -156,12 +162,11 @@ public class FIFO extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 730, 300));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 730, 300));
 
         btnLoad.setText("Load");
         btnLoad.addActionListener(new java.awt.event.ActionListener() {
@@ -169,7 +174,7 @@ public class FIFO extends javax.swing.JFrame {
                 btnLoadActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLoad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, -1));
+        getContentPane().add(btnLoad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
 
         btnExecute.setText("Execute");
         btnExecute.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +182,7 @@ public class FIFO extends javax.swing.JFrame {
                 btnExecuteActionPerformed(evt);
             }
         });
-        getContentPane().add(btnExecute, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+        getContentPane().add(btnExecute, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
 
         jButton1.setText("Return to main menu");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +190,7 @@ public class FIFO extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, -1, -1));
 
         jButton2.setText("Reset all");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -193,14 +198,20 @@ public class FIFO extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, -1, -1));
+
+        txtQuantum.setText("3");
+        getContentPane().add(txtQuantum, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, 71, -1));
+
+        jLabel6.setText("Set the size of quantum");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
-        if(Integer.parseInt(txtSize.getText())>0){
+        quantumSize = Integer.parseInt(txtQuantum.getText());
+        if(Integer.parseInt(txtSize.getText())>1){
             model.addRow(new Object[]{
             txtName.getText(),
             txtSize.getText()
@@ -244,6 +255,7 @@ public class FIFO extends javax.swing.JFrame {
             model2.addRow(new Object[]{
                   llName.getFirst()
             });
+            llName2.addLast(llName.getFirst());
             llName.pop();
            j++;
        }
@@ -260,16 +272,32 @@ public class FIFO extends javax.swing.JFrame {
         k=0;
         
 //        if (model.getRowCount()>0){
-            while(j<model2.getRowCount()){
-                while(i<Integer.parseInt(llSize.getFirst().toString())){
+
+            while(j<llSize.size()){
+                while(i<quantumSize){
                 model2.setValueAt("#", j, i+1+k);
                 i++;
+
                 }
-                llSize.pop();
+                temp = Integer.parseInt(llSize.getFirst().toString());
+                if(temp>quantumSize){
+                    llSize.addLast(Integer.parseInt(llSize.getFirst().toString())-quantumSize);
+                    llSize.pop();
+                    System.out.println("Remaind of Process: "+llName2.getFirst()+"---> "+llSize.getLast());
+                    llName2.pop();
+                }
+                else{
+                    
+                }
+//                llSize.pop();
+//                llSize.
                 k+=i;
                 j++;
                 i=0;
             }
+            
+            
+            
 //        }else{}
 //        this.setEnabled(false);
         btnLoad.setEnabled(false);
@@ -315,20 +343,21 @@ public class FIFO extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FIFO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RRF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FIFO().setVisible(true);
+                new RRF().setVisible(true);
             }
         });
     }
@@ -344,6 +373,7 @@ public class FIFO extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -353,6 +383,7 @@ public class FIFO extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField txtMemory;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtQuantum;
     private javax.swing.JTextField txtSize;
     // End of variables declaration//GEN-END:variables
 }
